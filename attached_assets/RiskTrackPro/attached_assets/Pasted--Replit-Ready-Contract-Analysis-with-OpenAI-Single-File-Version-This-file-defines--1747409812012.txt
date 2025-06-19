@@ -1,0 +1,129 @@
+// ✅ Replit-Ready: Contract Analysis with OpenAI (Single File Version)
+
+/**
+ * This file defines a robust contract analysis process using OpenAI GPT-4o.
+ * It includes:
+ * 1. A best-practice analysis prompt
+ * 2. Full fetch logic to call OpenAI
+ * 3. Error handling and results integration
+ *
+ * Requires:
+ * - A contract text string passed as `fileContent`
+ * - OpenAI API key configured
+ */
+
+// --- 1. Construct Best Practice Prompt ---
+const buildAnalysisPrompt = (fileContent) => `
+You are a legal and commercial contract analysis assistant. Your role is to carefully read and extract enforceable information from contracts for use in compliance tracking, timeline planning, and risk management.
+
+---
+🔍 OBJECTIVE:
+Extract all important contractual obligations, milestone dates, deadlines, and financial implications that can be used to populate a visual timeline or compliance tracker.
+This analysis may be part of a multi-part contract. If you detect references to other documents or missing sections, make note of those dependencies clearly.
+
+---
+📌 FOR EACH DATE YOU EXTRACT:
+Only include items that meet one of the following:
+- Tied to a mandatory clause (e.g., uses "must", "shall", "is due by")
+- Has a financial obligation or penalty
+- Related to contract milestones or legal obligations
+
+Return the following fields:
+- "date": YYYY-MM-DD
+- "title": Short label
+- "description": What the date represents
+- "importance": Critical | High | Medium | Low
+- "financialImplications": Any monetary details
+- "clauseReference": E.g. "Clause 5.3, Page 7"
+- "clauseText": Limit to 100–200 words
+- "dependencies": E.g. "30 days after signing"
+- "status": Pending | In Progress | Completed | At Risk
+- "daysOffset": Days from contract start
+- "isStartDate": true | false
+- "category": Payment | Delivery | Legal | Construction | Approval | Other
+
+---
+📄 ALSO RETURN:
+- "contractValue": Total with currency
+- "agreementType": Type of agreement
+- "parties": Who is involved and their role
+- "criticalIssues": Risks, penalties, consent dependencies
+- "title": Project or document name
+
+---
+📦 FORMAT STRICTLY AS:
+{
+  "criticalDates": [ ... ],
+  "timeline": {
+    "startDate": "YYYY-MM-DD",
+    "endDate": "YYYY-MM-DD",
+    "totalDuration": "..."
+  },
+  "contractValue": "...",
+  "agreementType": "...",
+  "parties": [ "..." ],
+  "criticalIssues": [ "..." ],
+  "title": "..."
+}
+
+---
+✂️ TEXT TO ANALYSE:
+${fileContent}
+`;
+
+
+// --- 2. Call OpenAI API ---
+async function analyseContract(fileContent) {
+  if (!fileContent || fileContent.length > 120000) {
+    throw new Error("File content is missing or too large for analysis.");
+  }
+
+  const prompt = buildAnalysisPrompt(fileContent);
+
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+    },
+    body: JSON.stringify({
+      model: "gpt-4o",
+      temperature: 0.3,
+      response_format: "json",
+      messages: [
+        { role: "system", content: "You are a legal assistant trained in contract analysis." },
+        { role: "user", content: prompt },
+      ],
+    }),
+  });
+
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`OpenAI Error ${response.status}: ${errText}`);
+  }
+
+  const result = await response.json();
+  const message = result.choices?.[0]?.message?.content;
+
+  try {
+    const parsed = JSON.parse(message);
+    return parsed;
+  } catch (e) {
+    console.error("Failed to parse response as JSON", message);
+    throw new Error("Invalid JSON format returned from GPT");
+  }
+}
+
+
+// --- 3. Example Usage (Replit) ---
+(async () => {
+  const fileContent = `... paste your contract text here ...`;
+
+  try {
+    const results = await analyseContract(fileContent);
+    console.log("\n✅ Contract Analysis Complete:\");
+    console.log(JSON.stringify(results, null, 2));
+  } catch (err) {
+    console.error("\n❌ Analysis Failed:", err.message);
+  }
+})();

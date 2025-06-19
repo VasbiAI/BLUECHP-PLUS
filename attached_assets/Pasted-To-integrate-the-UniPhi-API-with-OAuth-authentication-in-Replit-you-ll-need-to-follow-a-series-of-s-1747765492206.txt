@@ -1,0 +1,43 @@
+To integrate the UniPhi API with OAuth authentication in Replit, you'll need to follow a series of steps to set up and manage the authentication flow. Here's a comprehensive guide to help you through the process:
+🔐 Understanding UniPhi's OAuth Support
+UniPhi version 20 introduced support for the Client Credentials OAuth flow, which is intended to replace deprecated authentication methods like Basic Authentication and the Password OAuth flow . This flow is suitable for server-to-server interactions where user consent isn't required.(UniPhi Knowledge)
+🛠️ Setting Up OAuth in Replit
+Obtain OAuth Credentials from UniPhi:
+Reach out to your UniPhi administrator to register your application.
+You'll receive a Client ID and Client Secret upon successful registration.
+Securely Store Credentials in Replit:
+In your Replit project, navigate to the Secrets tab.
+Add the following environment variables:
+UNIPHI_CLIENT_ID
+UNIPHI_CLIENT_SECRET
+Implement the OAuth Token Request:
+Use the Client Credentials flow to obtain an access token. Here's a Python example:(Replit Docs)
+ 
+Replace https://your-uniphi-instance.com/oauth/token with the actual token endpoint provided by UniPhi.
+Access UniPhi API Endpoints:
+With the obtained access_token, you can make authenticated requests to UniPhi's API. For example:(UniPhi Knowledge)
+ 
+Ensure you replace https://your-uniphi-instance.com/api/endpoint with the specific API endpoint you intend to access.
+⚠️ Important Considerations
+Token Expiry: Access tokens typically have an expiration time. Implement logic to refresh tokens as needed.
+Secure Storage: Never hardcode your Client Secret in your code. Always use environment variables to store sensitive information.
+API Documentation: Consult UniPhi's API documentation for details on available endpoints and required parameters.(UniPhi Knowledge)
+If you encounter any issues or need further assistance with specific parts of this integration, feel free to ask!
+headers = {
+    "Authorization": f"Bearer {access_token}"
+}
+api_url = "https://your-uniphi-instance.com/api/endpoint"
+api_response = requests.get(api_url, headers=headers)
+data = api_response.json()
+import os
+import requests
+token_url = "https://your-uniphi-instance.com/oauth/token"
+client_id = os.environ["UNIPHI_CLIENT_ID"]
+client_secret = os.environ["UNIPHI_CLIENT_SECRET"]
+response = requests.post(token_url, data={
+    "grant_type": "client_credentials",
+    "client_id": client_id,
+    "client_secret": client_secret
+})
+token_data = response.json()
+access_token = token_data["access_token"]

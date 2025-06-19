@@ -1,0 +1,119 @@
+Summary of your new requirement:
+You want the system to accept external contractor/consultant quotes (PDF, email, etc.), extract the relevant data using OCR/AI, auto-populate a draft purchase order, and then let the project manager review, amend, and approve before it’s pushed into UniPhi or saved for further processing.
+
+Let’s clarify exactly how this fits into your overall workflow, what technical modules it touches, and how to add this to your ZIP deliverable and requirements matrix.
+
+1. Extended Workflow
+Quote Intake:
+
+Upload or email in a contractor/consultant quote (PDF, image, etc.), or monitor a “quotes” mailbox.
+
+AI/OCR Extraction:
+
+System reads the quote, extracts:
+
+Vendor/supplier name
+
+ABN
+
+Contact details
+
+Project reference
+
+Line items (description, qty, price, total)
+
+Validity period, terms
+
+Similar to invoice extraction, but schema slightly differs for quotes/POs.
+
+Draft Purchase Order Creation:
+
+System builds a draft PO object from the extracted data.
+
+Project Manager Review/Edit:
+
+PM sees a draft PO edit screen (editable all fields, flag errors, can add/change line items, supplier details, etc.).
+
+PM can approve, request changes, or decline.
+
+PO Push:
+
+Once approved, the PO is:
+
+Pushed into UniPhi via API (using existing plugin)
+
+OR exported/downloaded/saved externally (for other systems if required)
+
+The original quote, edits, and approval workflow are fully logged.
+
+2. Additions to Requirements Matrix
+Req ID	Category	Description	Must/Should	Phase	Module	Notes
+R18	Quote Intake	Accept/upload contractor/consultant quotes for PO creation	Must	2	Quote Intake	PDF, image, email support
+R19	PO Drafting	AI/OCR reads quote and builds draft PO	Must	2	AI Extraction	New extraction template/schema for quotes
+R20	PO Review/Edit	Project manager edits/amends AI-drafted PO before UniPhi push	Must	2	PO Edit UI	Editable form, error highlighting
+R21	PO API Push	Push approved PO into UniPhi or export externally	Must	2	UniPhi Plugin	Use or extend current API
+R22	Quote/PO Logging	Log original quote, extracted fields, edits, approvals	Must	2	Audit/Workflow	Full traceability for compliance/audit
+
+3. Technical Implementation
+A. New Quote Intake & Extraction Module
+Extend backend intake to allow “quote” uploads, flag with type: "quote"
+
+Adjust OpenAI prompt for quote-specific fields (supplier, line items, terms, etc.)
+
+Schema: Add quotes table with all extracted fields (like invoices, but for quotes)
+
+B. Draft PO UI
+React form shows extracted fields with edit capability (line items as editable table)
+
+Fields: Supplier, ABN, Project, Items, Terms, Attachments, Notes
+
+Show both extracted values and original quote for side-by-side correction if needed
+
+“Approve & Push” and “Save as Draft” buttons
+
+C. UniPhi Integration
+On approval, use the UniPhi plugin to create a new PO via API (using mapped fields)
+
+Log response/reference; handle errors/duplicates gracefully
+
+D. Workflow & Logging
+Track who made each edit, who approved, and when PO was pushed/exported
+
+Keep both the original quote and the final PO linked for compliance/audit
+
+4. How This Will Look in the Final Deliverable
+a) Updated Matrix File
+You’ll get these rows added to your requirements.
+
+b) New/Updated Code Stubs:
+src/backend/quote_intake_service.ts (handles upload, OCR/AI, and schema save)
+
+src/backend/po_draft_service.ts (handles draft PO, edit/save, push)
+
+src/frontend/QuoteToPODraft.tsx (React edit/review component)
+
+Update src/plugins/uniphi/index.ts to include a createPO() function
+
+c) Business Case/Docs:
+A new section in the business case and phased plan covering “Contractor Quote to PO Automation.”
+
+5. Example PO Draft UI (Wireframe/Markdown)
+markdown
+Copy
+Edit
+-----------------------------------------
+| [Quote PDF/Image Preview]  | [Draft PO Fields]                |
+|----------------------------|----------------------------------|
+|                            | Supplier: [__________]           |
+|                            | ABN:     [__________]            |
+|                            | Project: [Dropdown/Search]       |
+|                            | Line Items: [Editable Table]     |
+|                            | - Description, Qty, Unit, Price  |
+|                            | Terms:   [__________]            |
+|                            | Attachments: [Link/Upload]       |
+|                            | Notes:    [__________]           |
+|                            |                                  |
+|                            | [Approve & Push] [Save Draft]    |
+|----------------------------|----------------------------------|
+| [Audit Log/Edits]                                         |
+-----------------------------------------

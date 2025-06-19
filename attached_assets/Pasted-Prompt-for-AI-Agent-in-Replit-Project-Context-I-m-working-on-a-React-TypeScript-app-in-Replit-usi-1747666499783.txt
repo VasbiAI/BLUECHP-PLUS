@@ -1,0 +1,22 @@
+Prompt for AI Agent in Replit
+
+Project Context:
+I'm working on a React TypeScript app in Replit, using the "React (TypeScript)" template. My app is a manual editor where users can manage sections and content. I'm using Syncfusion components, including `RichTextEditorComponent` and `DialogComponent`, along with other libraries like `@tanstack/react-query`, `react-dnd`, `lucide-react`, and `shadcn/ui` components. You have access to my Replit project, so you can see my file structure, dependencies in `package.json`, and the runtime environment.
+
+Issue Description:
+In my `ManualEditor.tsx` file, I have a dialog that opens when a user clicks "Add Content" or "Edit Content". The dialog contains a form with a title input, a content type dropdown, a state selection area, and a Syncfusion `RichTextEditorComponent` for editing content. However, the RichTextEditor renders incorrectly: the toolbar is misaligned, and the content area doesn't display properly. I've attached a screenshot showing the issue.
+
+Relevant Code Location:
+The issue is in the 'Content Editor Modal' section of `ManualEditor.tsx`. The current implementation uses a custom dialog (`div` with `fixed inset-0`), but I've been advised to switch to Syncfusion's `DialogComponent` for better compatibility.
+
+Request:
+Please help fix the rendering issue with the `RichTextEditorComponent` in the dialog. Here’s what I need:
+1. Replace the custom dialog in the 'Content Editor Modal' section of `ManualEditor.tsx` with Syncfusion’s `DialogComponent`.
+2. Add logic to refresh the `RichTextEditorComponent` after the dialog opens, using a `ref` to call the `refresh` method.
+3. Check my `index.tsx` or `App.tsx` to ensure Syncfusion’s CSS files (e.g., `@syncfusion/ej2-richtexteditor/styles/material.css`) are imported correctly.
+4. Inspect my CSS files (e.g., `index.css`) for any global styles that might conflict with Syncfusion components, and suggest fixes if needed.
+5. After making the changes, run the app in Replit’s browser preview to confirm the RichTextEditor renders correctly, with a properly aligned toolbar and a visible content area.
+
+Additional Notes:
+- The screenshot I provided shows the dialog with the broken RichTextEditor. The expected appearance should have a functional toolbar with buttons and a clean content area below it.
+- You can modify `ManualEditor.tsx` directly and test the changes in Replit’s browser preview.

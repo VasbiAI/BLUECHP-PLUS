@@ -1,0 +1,30 @@
+| Field No. | Field Name                              | Data Type         | Description / Notes                                                               |
+| --------- | --------------------------------------- | ----------------- | --------------------------------------------------------------------------------- |
+| 1         | CompanyEntity                           | Dropdown (text)   | e.g. BlueCHP Limited, BlueCHPQ Limited, etc.                                      |
+| 2         | CompanyDepartment                       | Dropdown (text)   | Finance, Development, Board, Governance, Asset and Tenancy, Other                 |
+| 3         | State                                   | Dropdown (text)   | NSW, QLD, VIC, SA, TAS, NT, WA                                                    |
+| 4         | ContractValue                           | Number            | Value in AUD                                                                      |
+| 5         | CriticalIssue                           | Dropdown (text)   | Licence Renewal, Insurance Renewal, Other                                         |
+| 6         | CriticalIssueDescription                | Text              | Required if "Other" selected in CriticalIssue                                     |
+| 7         | CalendarOrBusinessDay                   | Dropdown (text)   | Calendar, Business                                                                |
+| 8         | CriticalDateReminderType                | Dropdown (text)   | Project, Operations                                                               |
+| 9         | ProjectName                             | Text              | Only if Reminder Type is "Project"                                                |
+| 10        | ProjectAddress                          | Text              | Only if Reminder Type is "Project"                                                |
+| 11        | AgreementType                           | Dropdown (text)   | Land Contract, Construction Works Contract, etc. (include "Other")                |
+| 12        | CriticalDate\_DueDate                   | Date (dd/MM/yyyy) | Required                                                                          |
+| 13        | ReminderScheduling                      | Dropdown (text)   | One Off Event, Ongoing / Series of Events                                         |
+| 14        | OccurrenceFrequency                     | Dropdown (text)   | Daily, Weekly, Monthly, Bi-Monthly, Quarterly, Bi-Annual, Annually *(if ongoing)* |
+| 15        | OccurrenceStartDate                     | Date              | *(if ongoing)*                                                                    |
+| 16        | FirstReminderDaysBeforeDueDate          | Number or "None"  | Typically 60, 30, 14, 7, or Other                                                 |
+| 17        | SecondReminderDaysBeforeDueDate         | Number or "None"  | Optional                                                                          |
+| 18        | ThirdReminderDaysBeforeDueDate          | Number or "None"  | Optional                                                                          |
+| 19        | FourthReminderDaysBeforeDueDate         | Number or "None"  | Optional                                                                          |
+| 20        | PostTriggerReminderDaysAfterDueDate     | Number or "None"  | Optional (e.g. 60, 30, 14, 7, Other)                                              |
+| 21        | RelatedClause                           | Yes/No            | If “Yes”, show fields 22–25                                                       |
+| 22        | RelatedClauseAndContractDetails         | Text              | Optional text field                                                               |
+| 23        | RelatedClauseAction                     | Text              | Optional action description                                                       |
+| 24        | RelatedAgreementType                    | Dropdown (text)   | Same options as AgreementType                                                     |
+| 25        | RelatedAgreementDate                    | Date              | Optional date                                                                     |
+| 26        | BlueCHPResponsiblePerson                | Dropdown (text)   | Suggest list based on team members                                                |
+| 27        | BlueCHPManager                          | Dropdown (text)   | Suggest list based on senior staff                                                |
+| 28        | ExternalResponsiblePartyConsultantEmail | Email             | Email address format                                                              |

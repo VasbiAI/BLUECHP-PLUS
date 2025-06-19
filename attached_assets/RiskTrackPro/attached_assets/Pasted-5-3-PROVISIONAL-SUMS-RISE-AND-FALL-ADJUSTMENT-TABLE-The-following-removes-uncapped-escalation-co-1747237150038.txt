@@ -1,0 +1,34 @@
+5.3.	PROVISIONAL SUMS – RISE AND FALL ADJUSTMENT TABLE
+The following removes uncapped escalation contractual issues and provides a method to determine a maximum cost for materials, labour and equipment which are agreed at the time of entering the contract and reviewed by BlueCHP’s Quantity Surveyor. This provides BlueCHP with a capped exposure enabling a fixed price with financial incentives for the builder to increase their margin by reducing the cost. 
+
+The below Rise and Fall Adjustment Table incentivises the builder to increase their profit by reducing BlueCHP’s cost.
+This is demonstrated below if the price increased from $150 to $200 the builder receives not financial benefit and BlueCHP incurs all the additional cost upto a capped maximum of $200.
+However, if the builder was able to reduce the provisional cost from $150 to $100, they would receive 50% of the cost savings. 
+
+			RISE AND FALL ADJUSTMENT TABLE		OPPORTUNITY / EXPOSURE
+Material Supply Items		Qty	Nominated Contract 
+PC rate $	Low Cap Rate $	High Cap Rate $	Principals % risk share over PC rate
+(to "high cap" rate)	Principals % saving share under PC rate 
+(to "low cap" rate)	Principals % risk share over "high cap" Rate	Principals % saving share below "low cap" Rate	 
+ 	If Rate reaches 
+"Low Cap Rate"	If Rate reaches 
+"High Cap Rate"
+Concrete		100	$150	$100	$200	100%	50%	0%	0%		$2,500	$(5,000)
+
+Totals (ex GST)	 	$2,500	$(5,000)
+
+The construction contract includes the following clause(s) describing the risk share percentages application within the above table, which is attached as an Annexure to the Contract.
+
+The parties agree:
+
+(a) 	the identified provisional sums are based on the Nominated Contract PC Rate set out in Annexure Part [X] for the specified Material Supply Items and form part of the contract sum; 
+(b) 	if the actual cost of any Material Supply Item is more than the Nominated Contract PC Rate for that Material Supply Item the Principal will pay the Contractor the total of: 
+             
+(1)	 100% of the actual cost up to and including the Nominated Contract PC Rate; 
+(2)            100% of the actual cost of the Material Supply Item in excess of the Nominated Contract PC Rate up to and including the High Cap Rate; and 
+(3)            0% of the actual cost of the Material Supply Item in excess of the High Cap Rate which cost will be borne by the Contractor; and 
+
+(c) if the actual cost of any Material Supply Item is less than the Nominated Contract PC Rate for that Material Supply Item the Principal will pay the Contractor the total of: 
+
+(1)	100% of the actual cost up to and including the Nominated Contact PC Rate but no less than the Low Cap Rate for that Material Supply Item (the Payable Rate); and 
+(2)	50% of the difference between the Payable Rate and the Nominated Contract PC Rate.

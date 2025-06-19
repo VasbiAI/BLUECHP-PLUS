@@ -1,0 +1,44 @@
+
+> rest-express@1.0.0 dev
+> NODE_ENV=development tsx server/index.ts
+
+Running database migrations...
+Executed migration: migrations/002_risk_track_pro.sql
+Executed migration: migrations/003_add_risk_track_pro_tables.sql
+Starting risk data import
+Inserting 5 sample risks
+Created risk_track_pro_risks table if it didn't exist
+Inserted risk R - 43
+Inserted risk R - 17
+Inserted risk R - 5
+Inserted risk R - 22
+Inserted risk R - 15
+Risk data import completed successfully!
+Database migrations completed
+12:58:55 PM [express] BlueCHP Intelligence application server started
+12:58:55 PM [express] Environment: development
+12:58:55 PM [express] Serving on port 5000
+12:58:55 PM [express] http://localhost:5000
+Browserslist: browsers data (caniuse-lite) is 7 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+file:///home/runner/workspace/node_modules/@neondatabase/serverless/index.mjs:1384
+ connect",o),this._clients=this._clients.filter(u=>u!==t),s&&(o.message="Connect\
+                                                                       ^
+
+TypeError: Cannot set property message of #<ErrorEvent> which has only a getter
+    at An._connectionCallback (file:///home/runner/workspace/node_modules/@neondatabase/serverless/index.mjs:1384:72)
+    at An._handleErrorWhileConnecting (file:///home/runner/workspace/node_modules/@neondatabase/serverless/index.mjs:1290:38)
+    at An._handleErrorEvent (file:///home/runner/workspace/node_modules/@neondatabase/serverless/index.mjs:1291:33)
+    at fn.emit (file:///home/runner/workspace/node_modules/@neondatabase/serverless/index.mjs:397:12)
+    at v.reportStreamError (file:///home/runner/workspace/node_modules/@neondatabase/serverless/index.mjs:1201:46)
+    at v.emit (file:///home/runner/workspace/node_modules/@neondatabase/serverless/index.mjs:397:12)
+    at WebSocket.<anonymous> (file:///home/runner/workspace/node_modules/@neondatabase/serverless/index.mjs:986:42)
+    at callListener (/home/runner/workspace/node_modules/ws/lib/event-target.js:290:14)
+    at WebSocket.onError (/home/runner/workspace/node_modules/ws/lib/event-target.js:230:9)
+    at WebSocket.emit (node:events:518:28)
+    at emitErrorAndClose (/home/runner/workspace/node_modules/ws/lib/websocket.js:1041:13)
+    at processTicksAndRejections (node:internal/process/task_queues:82:21)
+    at runNextTicks (node:internal/process/task_queues:64:3)
+    at listOnTimeout (node:internal/timers:545:9)
+    at process.processTimers (node:internal/timers:519:7)

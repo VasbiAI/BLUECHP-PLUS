@@ -1,0 +1,126 @@
+// ✅ FIXED: OpenAI Prompt & Call
+const analysisPrompt = `
+Analyse the following contract document to extract critical dates and key information for a visual timeline.
+
+IMPORTANT: This may be part of a multi-part contract. If you notice references to other documents or sections not included, make note of these dependencies in your analysis.
+
+For each relevant date, deadline, or milestone found, provide:
+1. The date in YYYY-MM-DD format
+2. A detailed description of what the date represents
+3. Its importance level (Critical, High, Medium, Low)
+4. Any associated financial implications or monetary values
+5. The specific clause reference and page number (e.g., "Clause 5.3, Page 7")
+6. The full text of the relevant clause (limit to 100-200 words)
+7. Any dependencies on other dates
+8. The status ("Pending", "In Progress", "Completed", "At Risk")
+
+Also extract:
+- Contract value
+- Agreement type and purpose
+- Key parties and their roles
+- Critical issues, risks, or special considerations
+- Penalties for missing deadlines
+
+Format response as JSON with these keys:
+{ ... as before ... }
+
+Document content:
+${fileContent}`;
+
+if (!fileContent || fileContent.length > 120000) {
+  throw new Error("File content is missing or too large for analysis.");
+}
+
+const response = await openai.chat.completions.create({
+  model: "gpt-4o",
+  messages: [
+    { role: "system", content: "You are a contract analysis assistant." },
+    { role: "user", content: analysisPrompt }
+  ],
+  response_format: "json",
+  temperature: 0.3,
+});
+
+
+// ✅ FIXED: analyseDocuments
+const analyseDocuments = async () => {
+  setIsAnalyzing(true);
+  setAnalysisError(null);
+
+  try {
+    const documentIds = uploads
+      .filter(u => u.status === 'success' && u.uploadedId)
+      .map(u => u.uploadedId);
+
+    const response = await fetch('/api/documents/analyse', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ documentIds })
+    });
+
+    if (!response.ok) {
+      const contentType = response.headers.get("Content-Type") || "";
+      const message = contentType.includes("application/json")
+        ? (await response.json()).message
+        : await response.text();
+      throw new Error(`Server error: ${response.status} - ${message}`);
+    }
+
+    const data = await response.json();
+    const results = data.analysisResults || data;
+    const timeline = data.timelineData ?? results.criticalDates ?? [];
+
+    setAnalysisResults(results);
+    setTimelineData(timeline);
+    setActiveTab("timeline");
+
+    onAnalysisComplete?.(results);
+  } catch (error) {
+    console.error('Analysis error:', error);
+    setAnalysisError(error instanceof Error ? error.message : "Unknown error");
+  } finally {
+    setIsAnalyzing(false);
+  }
+};
+
+
+// ✅ FIXED: Express Upload API
+app.post('/api/documents/upload', upload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
+
+    const { file } = req;
+    const criticalDateId = req.body.criticalDateId ? parseInt(req.body.criticalDateId) : null;
+
+    if (!['application/pdf', 'text/plain'].includes(file.mimetype)) {
+      return res.status(400).json({ message: 'Unsupported file type' });
+    }
+
+    const document = await storage.createDocumentUpload({
+      filename: file.filename,
+      originalFilename: file.originalname,
+      filePath: file.path,
+      fileSize: file.size,
+      mimeType: file.mimetype,
+      uploadedBy: req.user?.id || 1,
+      analysisStatus: 'pending',
+    });
+
+    if (criticalDateId) {
+      try {
+        await storage.linkDocumentToCriticalDate({
+          criticalDateId,
+          documentId: document.id,
+          relationshipType: 'source',
+        });
+      } catch (linkErr) {
+        console.warn('Linking document failed:', linkErr);
+      }
+    }
+
+    res.status(201).json(document);
+  } catch (error) {
+    console.error('Upload failed:', error);
+    res.status(500).json({ message: 'Upload error', error: error.message });
+  }
+});

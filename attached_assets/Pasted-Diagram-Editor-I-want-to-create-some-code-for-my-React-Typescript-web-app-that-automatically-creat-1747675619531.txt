@@ -1,0 +1,139 @@
+Diagram Editor 
+
+I want to create some code for my React Typescript web app that automatically creates template for Diagrams. These are sort of things like organisational diagrams, or funding diagrams, essentially diagrams adding different types of entities together or misecelanious things. The way I want to create these diagrams is to have an Entity table, this will be like a table with details of companies or ppl we deal with. they each with have a category assigned to them such as "Government Entity" "Lender" "Employee" "Construction Company" Etc. these categories should be able to be edited. so we can add to them, there should also be a page and table where we can filter these entities, add to them, delete them etc.
+
+Now there should also be another page where I can create these templates for diagrams, edit them or delete them etc. When I create them I want an easy interface to add entities and what they are linked to, when I add an entity I will say what type of entity it is, which can include Miscellaneous. Then I can select what entities are linked to each other.
+
+The template will then have a preview of what the diagram will look like and I can change the different layout of the diagram such as heirarchial with different orientations, mind map, radial tree, organizational chart etc. and what I select will change the layout of the templated chart.
+
+Selecting a diagram.
+
+The goal is when I go to insert a diagram somewhere where I need to a dialog box will appear asking me to select a pre defined diagram from a template. Then it will ask me to select each entity from the predefined entity list I requested earlier. So if the diagram has a node called Lender, when I click on that it will show me all the lenders I deal with and allow me to select one. If its employee it will allow me to select and employees if its miscellaneous then I can type in whatever I want. This diagram and all its meta data of what each entity is will be saved to the database to be used and also referenced as I see fit later.
+
+
+
+Below is a concise prompt designed for the Replit Agent to integrate the Diagram Editor functionality into your existing React TypeScript app with an Express.js backend. The prompt summarizes your requirements, incorporates my suggestions (e.g., using React Flow with Dagre for layouts), and leaves the implementation details to the Replit Agent, which can adapt to your app’s current database and code structure. The prompt is structured to be clear and actionable while respecting your existing setup.
+
+Prompt for Replit Agent
+I want to add a Diagram Editor feature to my existing React TypeScript app with an Express.js backend. The feature should allow users to manage entities, create diagram templates, and instantiate diagrams with specific entities. Below are the requirements and suggested approach, but please adapt the implementation to fit my app’s current database schema, folder structure, and coding conventions.
+Requirements:
+1. Entity Management:
+    * Create a page with a table to manage entities (e.g., companies, people) with fields: id, name, category (e.g., "Government Entity", "Lender", "Employee", "Construction Company", "Miscellaneous").
+    * Support CRUD operations (Create, Read, Update, Delete) for entities.
+    * Allow filtering entities by category.
+    * Create a separate interface (e.g., modal or page) to manage categories (add, edit, delete).
+    * Store entities and categories in the database.
+2. Diagram Template Editor:
+    * Create a page to create, edit, and delete diagram templates.
+    * Each template defines nodes (representing entities by category, e.g., "Lender") and edges (relationships between entities).
+    * Provide a dropdown to select diagram layouts: hierarchical, mind map, radial tree, organizational chart.
+    * Show a live preview of the diagram as the user edits the template.
+    * Save templates to the database, including nodes, edges, and selected layout.
+3. Diagram Instantiation:
+    * Add a dialog (triggered by a button in the app) to insert a diagram.
+    * The dialog should:
+        * List all templates and let the user select one.
+        * For each node in the template, allow selecting an entity from the entity list (filtered by the node’s category). For "Miscellaneous" nodes, allow free-text input.
+        * Save the instantiated diagram (with selected entities and metadata) to the database.
+    * Ensure saved diagrams can be retrieved and displayed later.
+4. General:
+    * Use my existing React TypeScript frontend and Express.js backend.
+    * Integrate with my current database (adapt to its schema).
+    * Follow my app’s styling (e.g., Tailwind CSS if used) and component patterns.
+    * Ensure responsive design and error handling for API calls.
+Suggested Approach (adapt to my app’s structure):
+* Frontend:
+    * Use React Flow (free version, via npm or CDN) for the diagram editor and preview.
+    * Use Dagre (via npm or CDN) for hierarchical and organizational chart layouts. Optionally, add Elkjs for radial or mind map layouts if feasible.
+    * Use  existing UI library for tables, modals, and dialogs.
+* Backend:
+    * Add database tables (or adapt existing ones) for:
+        * entities: id, name, category, created_at, etc.
+        * diagramcategories: id, name.
+        * diagramttemplates: id, name, nodes (JSON for node data), edges (JSON for edge data), layout.
+        * diagrams: id, template_id, nodes (JSON mapping template nodes to entity IDs or free text).
+    * Create REST API endpoints in Express.js for CRUD operations on entities, categories, templates, and diagrams (e.g., GET /entities, POST /templates, etc.).
+    * Ensure API responses match my existing format.
+* Layout Handling:
+    * Use Dagre to compute hierarchical layouts in the template editor. Apply layouts programmatically to React Flow nodes.
+    * For other layouts (radial, mind map), either use Elkjs or disable them if too complex for now.
+    * Allow users to select layouts via a dropdown, updating the preview dynamically.
+* Integration:
+    * Add navigation links to the entity management and template editor pages in my app’s existing menu.
+    * Add a button (e.g., “Insert Diagram”) in a relevant part of my app to open the diagram instantiation dialog.
+    * Ensure diagrams can be rendered in my app (e.g., on a project or report page) using React Flow.
+Instructions:
+* Analyze my app’s current React TypeScript and Express.js codebase to integrate this feature seamlessly.
+* Adapt the database schema and API endpoints to my existing setup, reusing tables or conventions where possible.
+* Follow my app’s folder structure (e.g., src/components, src/pages, routes/) and naming conventions.
+* Use my existing dependencies if they cover the needs (e.g., UI library, state management).
+* Install new dependencies (e.g., react-flow-renderer, dagre) via npm if needed.
+* Provide clear commit messages for each change (e.g., “Add entity management page”, “Integrate React Flow for template editor”).
+* If my app uses TypeScript, ensure strict type safety for all new components, hooks, and API calls.
+* Test the feature locally to ensure it works with my app’s authentication, routing, and database.
+Please implement this feature, focusing on clean code, performance, and compatibility with my existing app. Let me know if you need clarification on my app’s structure or preferences before proceeding.
+
+
+Below are list of entity types we would need to have in the database to be able to add them as node categories .
+Core Parties
+* Developer (the property development company itself)
+* Landowner / Vendor
+* Builder / Head Contractor
+* Subcontractors & Trades
+* Project Manager (External or Internal)
+* Superintendent / Contract Administrator
+Legal, Financial, and Risk Parties
+* Lawyer / Legal Advisor
+* Financiers:
+    * Senior Debt Financier (e.g. banks)
+    * Subordinated Debt Financier / Mezzanine Lender
+    * Equity Investors / Joint Venture Partners
+* Accountant / Tax Advisor / Auditor
+* Insurance Broker / Insurer
+    * Construction Insurance
+    * Professional Indemnity Insurance
+    * Home Warranty/Builder’s Warranty Insurance
+* Valuer (for finance and asset purposes)
+* Quantity Surveyor (QS) / Cost Consultant
+Planning, Design, and Advisory
+* Town Planner
+* Architect / Urban Designer
+* Landscape Architect
+* Engineers:
+    * Civil Engineer
+    * Structural Engineer
+    * Services/Mechanical/Electrical/Hydraulic Engineer
+    * Geotechnical Engineer
+    * Acoustic, Traffic, Environmental Engineers
+* Building Surveyor / Certifier
+* Environmental / Sustainability Consultant (ESD)
+* Heritage Consultant
+* Access Consultant (disability, DDA compliance)
+* Fire Safety Consultant
+Sales, Leasing, and Marketing
+* Real Estate Agents (Sales and Leasing)
+* Marketing/Advertising Agency
+* Sales/Display Suite Operator
+Government and Regulatory Bodies
+* State Government Departments
+    * Planning, Housing, Transport, Infrastructure, etc.
+* Local Government / Council
+    * Planning / Development Assessment
+    * Building Certifier / Surveyor
+    * Rates and Charges
+* Federal Government (e.g. if grants, infrastructure, or taxation applies)
+* Statutory Authorities / Utilities
+    * Water, Sewerage, Electricity, Gas, NBN / Communications
+* Fire and Emergency Services
+* Workplace Health and Safety Regulator
+Operations and Asset Management
+* Property Manager / Facilities Manager
+* Body Corporate / Owners Corporation Manager (for strata/units)
+* Community Housing Provider / Tenancy Manager (if affordable/social housing)
+* Maintenance Contractors / Facility Service Providers
+Other Key Stakeholders
+* Consultants (Specialist, e.g. Arborist, Wind, Flood, etc.)
+* Neighbouring Landowners / Community Groups
+* Prospective Tenants or Purchasers
+* Tenants’ Advocates / Social Services (if relevant)
+* Project Stakeholder Liaison / Engagement Consultant

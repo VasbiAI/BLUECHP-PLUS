@@ -1,0 +1,129 @@
+const uploadFile = async (fileState: FileUploadState, index: number) => {
+  const formData = new FormData();
+  formData.append('file', fileState.file);
+
+  if (criticalDateId) {
+    formData.append('criticalDateId', criticalDateId.toString());
+  }
+
+  try {
+    setFiles(prev =>
+      prev.map((f, i) =>
+        i === index ? { ...f, status: 'uploading', progress: 10 } : f
+      )
+    );
+
+    const progressInterval = setInterval(() => {
+      setFiles(prev =>
+        prev.map((f, i) =>
+          i === index && f.progress < 90
+            ? { ...f, progress: f.progress + 10 }
+            : f
+        )
+      );
+    }, 300);
+
+    const response = await fetch('/api/documents/upload', {
+      method: 'POST',
+      body: formData,
+    });
+
+    clearInterval(progressInterval);
+
+    if (!response.ok) {
+      let responseText = "";
+      try {
+        const errorData = await response.json();
+        responseText = errorData.message || response.statusText;
+
+        if (
+          responseText.includes("database") ||
+          responseText.includes("connection") ||
+          responseText.includes("Control plane request") ||
+          responseText.includes("rate limit")
+        ) {
+          console.log("Database connection issue detected, creating temporary document");
+
+          const tempDocId = Date.now();
+          const tempDocument = {
+            id: tempDocId,
+            filename: fileState.file.name,
+            originalFilename: fileState.file.name,
+            fileSize: fileState.file.size,
+            mimeType: fileState.file.type,
+            uploadedAt: new Date(),
+            analysisStatus: 'ready_for_analysis',
+            isTemporary: true,
+          };
+
+          setFiles(prev =>
+            prev.map((f, i) =>
+              i === index
+                ? {
+                    ...f,
+                    status: 'success',
+                    progress: 100,
+                    uploadedId: tempDocId,
+                    message:
+                      "File ready for analysis (Note: Not saved to database due to connection issues)",
+                  }
+                : f
+            )
+          );
+
+          toast({
+            title: "Upload Partial Success",
+            description: `${fileState.file.name} is ready for analysis, but could not be saved to the database.`,
+            duration: 5000,
+          });
+
+          return; // Exit early after fallback
+        }
+      } catch (e) {
+        console.warn("Non-JSON response error", e);
+      }
+
+      throw new Error(`Upload failed: ${responseText}`);
+    }
+
+    const uploadedDoc = await response.json();
+
+    setFiles(prev =>
+      prev.map((f, i) =>
+        i === index
+          ? {
+              ...f,
+              status: 'success',
+              progress: 100,
+              uploadedId: uploadedDoc.id,
+              message: "Upload successful",
+            }
+          : f
+      )
+    );
+
+    toast({
+      title: "Upload Complete",
+      description: `${fileState.file.name} uploaded successfully.`,
+      duration: 4000,
+    });
+  } catch (error) {
+    clearInterval(progressInterval);
+
+    console.error("Upload error:", error);
+    setFiles(prev =>
+      prev.map((f, i) =>
+        i === index
+          ? { ...f, status: 'error', message: error.message || "Upload failed" }
+          : f
+      )
+    );
+
+    toast({
+      title: "Upload Failed",
+      description: `${fileState.file.name} could not be uploaded.`,
+      variant: "destructive",
+      duration: 5000,
+    });
+  }
+};

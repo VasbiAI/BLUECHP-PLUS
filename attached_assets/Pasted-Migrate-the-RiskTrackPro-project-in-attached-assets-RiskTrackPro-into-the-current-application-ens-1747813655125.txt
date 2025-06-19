@@ -1,0 +1,24 @@
+Migrate the RiskTrackPro project (in attached_assets/RiskTrackPro) into the current application, ensuring seamless integration as if native. This is a critical, high-visibility task. RiskTrackPro has advanced features to prioritize.
+
+Requirements:
+
+Database Migration: Merge RiskTrackPro’s database schema (in shared folder) with the current project’s database. Prioritize RiskTrackPro’s structure for conflicts, preserving all data and functionality. Use PostgreSQL best practices.
+Multi-Project Support: Adapt RiskTrackPro’s single-project UI/UX to support all projects in the current application. Integrate under "Project Details," displaying project-specific RiskTrackPro content and data.
+UI/UX Fidelity: Exactly replicate RiskTrackPro’s UI/UX, dialogs, and screens (per RISKTRACKPRO-SCREENSHOTS folder). Match code from RiskTrackPro folder, ensuring pixel-perfect design and functionality.
+Business Logic: Fully transfer RiskTrackPro’s advanced risk analysis (e.g., PERT methodology) in client and server code. Validate logic integrity post-migration.
+Test Data: Import data from RiskTrackPro’s database (postgresql://neondb_owner:npg_NVKS1e3CQEuA@ep-gentle-tree-a4t9q5xu.us-east-1.aws.neon.tech/neondb?sslmode=require) for testing. Ensure real data is visible.
+Test Project: Set up a test project to showcase all migrated features, UI/UX, and data.
+Instructions for Claude:
+
+Break down the migration into modular steps (e.g., schema merge, UI integration, logic transfer).
+Generate precise, commented code snippets for each step, prioritizing maintainability.
+Flag potential conflicts (e.g., table schema overlaps) and suggest resolutions.
+Optimize database queries for performance.
+Cross-reference SCREENSHOTS and RiskTrackPro code to ensure fidelity.
+Provide a brief migration plan before coding, outlining your approach.
+Output Format:
+
+Migration Plan: Concise list of steps.
+Code Snippets: Modular, commented, in appropriate files (e.g., SQL for schema, JS for UI).
+Verification Steps: Instructions to test migrated features.
+Ensure all dialogs, screens, and functionality are fully operational with real data for review.

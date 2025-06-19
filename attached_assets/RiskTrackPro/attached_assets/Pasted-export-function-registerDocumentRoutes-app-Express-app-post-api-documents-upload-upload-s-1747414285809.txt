@@ -1,0 +1,60 @@
+export function registerDocumentRoutes(app: Express) {
+  app.post('/api/documents/upload', upload.single('file'), async (req: Request, res: Response) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: 'No file uploaded' });
+      }
+
+      const { file } = req;
+      const criticalDateId = req.body.criticalDateId ? parseInt(req.body.criticalDateId) : null;
+
+      // ✅ Secure file type check
+      const allowedTypes = [
+        'application/pdf',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/vnd.ms-excel',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'text/plain'
+      ];
+
+      if (!allowedTypes.includes(file.mimetype)) {
+        return res.status(400).json({
+          message: 'Unsupported file type',
+          acceptedTypes: 'PDF, Word, Excel, or text files'
+        });
+      }
+
+      // ✅ Create document record in DB
+      const document = await storage.createDocumentUpload({
+        filename: file.filename,
+        originalFilename: file.originalname,
+        filePath: file.path,
+        fileSize: file.size,
+        mimeType: file.mimetype,
+        uploadedBy: req.user?.id || 1, // fallback user ID
+        analysisStatus: 'pending',
+      });
+
+      // ✅ Optional: Link document to a critical date
+      if (criticalDateId) {
+        try {
+          await storage.linkDocumentToCriticalDate({
+            criticalDateId,
+            documentId: document.id,
+            relationshipType: 'source',
+          });
+        } catch (linkErr) {
+          console.warn(`⚠️ Failed to link document ID ${document.id} to criticalDate ${criticalDateId}:`, linkErr.message);
+        }
+      }
+
+      return res.status(201).json(document);
+
+    } catch (error) {
+      console.error('❌ Upload failed:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      res.status(500).json({ message: 'Failed to upload document', error: errorMessage });
+    }
+  });
+}

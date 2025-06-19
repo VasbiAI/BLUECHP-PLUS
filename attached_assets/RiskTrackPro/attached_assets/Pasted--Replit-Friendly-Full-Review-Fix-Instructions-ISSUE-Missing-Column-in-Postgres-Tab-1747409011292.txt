@@ -1,0 +1,79 @@
+// ✅ Replit-Friendly Full Review & Fix Instructions
+
+/**
+ * ISSUE: Missing Column in Postgres Table
+ * ERROR:
+ *   column "has_related_clause" of relation "critical_dates" does not exist
+ * FIX:
+ *   Add the column to your Postgres table manually or through migration.
+ */
+
+// --- ✅ SQL FIX (Run this on your Postgres DB) ---
+// ALTER TABLE critical_dates
+// ADD COLUMN has_related_clause BOOLEAN DEFAULT false;
+
+
+// --- ✅ createCriticalDate.ts (Refactored Function) ---
+async function createCriticalDate(insertCriticalDate) {
+  try {
+    const [criticalDate] = await db
+      .insert(criticalDates)
+      .values({
+        ...insertCriticalDate,
+        hasRelatedClause: insertCriticalDate.hasRelatedClause ?? false,
+      })
+      .returning();
+
+    if (!criticalDate) {
+      throw new Error("Failed to insert critical date");
+    }
+
+    return {
+      id: criticalDate.id,
+      title: criticalDate.title,
+      status: criticalDate.status,
+      department: criticalDate.department,
+      dueDate: criticalDate.dueDate,
+      createdAt: criticalDate.createdAt,
+      updatedAt: criticalDate.updatedAt,
+      createdBy: criticalDate.createdBy,
+      entity: criticalDate.entity,
+      state: criticalDate.state,
+      contractValue: criticalDate.contractValue,
+      criticalIssue: criticalDate.criticalIssue,
+      criticalIssueDescription: criticalDate.criticalIssueDescription,
+      reminderType: criticalDate.reminderType,
+      projectName: criticalDate.projectName,
+      projectAddress: criticalDate.projectAddress,
+      agreementType: criticalDate.agreementType,
+      agreementDate: criticalDate.agreementDate,
+      agreementReference: criticalDate.agreementReference,
+      hasRelatedClause: criticalDate.hasRelatedClause ?? false,
+      relatedClauseAndContractDetails: criticalDate.relatedClauseAndContractDetails,
+      relatedClauseAction: criticalDate.relatedClauseAction,
+      relatedAgreementType: criticalDate.relatedAgreementType,
+      relatedAgreementDate: criticalDate.relatedAgreementDate,
+      blueCHPResponsiblePerson: criticalDate.blueCHPResponsiblePerson,
+      blueCHPManager: criticalDate.blueCHPManager,
+      thirdPartyResponsiblePerson: criticalDate.thirdPartyResponsiblePerson,
+      reminder1Days: criticalDate.reminder1Days,
+      reminder2Days: criticalDate.reminder2Days,
+      reminder3Days: criticalDate.reminder3Days,
+      calendarOrBusinessDay: criticalDate.calendarOrBusinessDay,
+      firstReminderCalendarOrBusinessDay: criticalDate.firstReminderCalendarOrBusinessDay,
+      documentId: criticalDate.documentId,
+      lastModifiedBy: criticalDate.lastModifiedBy,
+    };
+  } catch (err) {
+    console.error("Error inserting critical date:", err);
+    throw err;
+  }
+}
+
+
+// --- ✅ Tips for Replit Environment ---
+/**
+ * 1. Run the SQL manually if not using a migration tool.
+ * 2. Always wrap DB insertions with try/catch to avoid crashes.
+ * 3. Validate incoming fields (like hasRelatedClause) before using.
+ */

@@ -1,0 +1,90 @@
+{
+  "criticalDates": [
+    {
+      "date": "2024-10-15",
+      "title": "Commencement Date",
+      "description": "The date on which the development services are scheduled to begin.",
+      "importance": "Critical",
+      "financialImplications": "Initial Payment of 10% of $5,500,000 AUD due.",
+      "clauseReference": "Clause not specified, Page not specified",
+      "clauseText": "Commencement Date: 15 October 2024",
+      "dependencies": "None",
+      "status": "Pending",
+      "daysOffset": 0,
+      "isStartDate": true,
+      "category": "Construction"
+    },
+    {
+      "date": "2024-11-01",
+      "title": "First Payment Date",
+      "description": "The first payment is due, marking the start of monthly progress payments.",
+      "importance": "High",
+      "financialImplications": "Monthly progress payments begin.",
+      "clauseReference": "Clause not specified, Page not specified",
+      "clauseText": "First Payment Date: 1 November 2024",
+      "dependencies": "Commencement Date",
+      "status": "Pending",
+      "daysOffset": 17,
+      "isStartDate": false,
+      "category": "Payment"
+    },
+    {
+      "date": "2025-07-30",
+      "title": "Final Inspection",
+      "description": "Scheduled date for the final inspection of the development.",
+      "importance": "High",
+      "financialImplications": "Precedes final payment and release of retention.",
+      "clauseReference": "Clause not specified, Page not specified",
+      "clauseText": "Final Inspection: 30 July 2025",
+      "dependencies": "Completion Date",
+      "status": "Pending",
+      "daysOffset": 288,
+      "isStartDate": false,
+      "category": "Approval"
+    },
+    {
+      "date": "2025-08-10",
+      "title": "Certificate of Occupancy",
+      "description": "The date by which the Certificate of Occupancy is expected to be issued.",
+      "importance": "Critical",
+      "financialImplications": "Necessary for final completion and release of retention.",
+      "clauseReference": "Clause not specified, Page not specified",
+      "clauseText": "Certificate of Occupancy: 10 August 2025",
+      "dependencies": "Final Inspection",
+      "status": "Pending",
+      "daysOffset": 299,
+      "isStartDate": false,
+      "category": "Legal"
+    },
+    {
+      "date": "2025-08-15",
+      "title": "Completion Date",
+      "description": "The expected date for the completion of all development services.",
+      "importance": "Critical",
+      "financialImplications": "Final payment and release of retention contingent on completion.",
+      "clauseReference": "Clause not specified, Page not specified",
+      "clauseText": "Completion Date: 15 August 2025",
+      "dependencies": "Certificate of Occupancy",
+      "status": "Pending",
+      "daysOffset": 304,
+      "isStartDate": false,
+      "category": "Construction"
+    }
+  ],
+  "timeline": {
+    "startDate": "2024-10-15",
+    "endDate": "2025-08-15",
+    "totalDuration": "304"
+  },
+  "contractValue": "$5,500,000 AUD",
+  "agreementType": "Development Services Agreement",
+  "parties": [
+    "BlueCHP Limited (Client)",
+    "Builder Partner (Developer)"
+  ],
+  "criticalIssues": [
+    "Developer must notify Client of delays within 5 business days.",
+    "Extensions of time require written approval."
+  ],
+  "title": "Development Services Agreement - Beerwah Rd (3 October 2024)"
+}

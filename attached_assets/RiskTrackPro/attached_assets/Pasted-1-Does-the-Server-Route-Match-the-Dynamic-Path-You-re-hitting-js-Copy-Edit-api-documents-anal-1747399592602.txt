@@ -1,0 +1,123 @@
+1. ✅ Does the Server Route Match the Dynamic Path?
+You’re hitting:
+
+js
+Copy
+Edit
+/api/documents/analyse/:criticalDateId
+So the server route must look like this:
+
+ts
+Copy
+Edit
+router.post('/analyse/:criticalDateId', handlerFn);
+And the handler must be:
+
+ts
+Copy
+Edit
+(req: Request, res: Response) => {
+  const criticalDateId = req.params.criticalDateId;
+  const { documentIds } = req.body;
+  ...
+}
+👉 Check: if you're calling /analyse/1234 but your server only has /analyse, you’ll get a method mismatch or 404.
+
+2. ❗ Is express.json() Middleware Enabled?
+Without this, req.body will be undefined or an empty object.
+
+Make sure somewhere early in your Express app:
+
+ts
+Copy
+Edit
+app.use(express.json());
+3. ⚠️ Check If documentIds Is an Array on the Server
+If the server expects:
+
+ts
+Copy
+Edit
+const { documentIds } = req.body;
+but you send:
+
+js
+Copy
+Edit
+body: JSON.stringify([123, 456]) // ❌ sends array directly
+It will break.
+
+Conversely, if the server expects the raw array, but you send:
+
+js
+Copy
+Edit
+body: JSON.stringify({ documentIds: [123, 456] }) // ❌ adds wrapper
+It won’t work either.
+
+✅ Check the exact expectation in your controller.
+
+4. 🔐 Authentication Headers?
+If the upload works but analysis fails, check if:
+
+You need to include credentials (credentials: 'include')
+
+A different auth token is required for analysis vs upload
+
+5. 🧪 Add This Diagnostic Logging in Your Route
+At the top of your controller:
+
+ts
+Copy
+Edit
+console.log('Method:', req.method);
+console.log('Params:', req.params);
+console.log('Body:', req.body);
+If req.method shows [object Object], your server might be misconfigured — possibly due to:
+
+Misuse of middleware
+
+Custom wrappers around fetch injecting the wrong structure
+
+Overriding or mutating the method before hitting the route
+
+🧠 Extra Tip: Catch Unexpected Errors
+Update your fetch error handler like this:
+
+ts
+Copy
+Edit
+try {
+  const response = await fetch(apiPath, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: requestBody
+  });
+
+  const text = await response.text(); // for unexpected non-JSON responses
+  if (!response.ok) {
+    console.error("Server returned error:", response.status, text);
+    throw new Error(`HTTP ${response.status}: ${text}`);
+  }
+
+  console.log("Success:", text);
+} catch (error) {
+  console.error("Fetch error:", error);
+}
+✅ Final Suggestion:
+If the server route is defined like this:
+
+ts
+Copy
+Edit
+router.post('/analyse', analyseHandler);
+Then make sure you're not accidentally passing a criticalDateId that makes it become /analyse/123 — or else it's hitting a non-existent endpoint.
+
+You can test this by temporarily hardcoding:
+
+js
+Copy
+Edit
+const apiPath = `/api/documents/analyse`;

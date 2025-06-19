@@ -1,0 +1,76 @@
+
+Running database migrations...
+Error executing migration migrations/002_risk_track_pro.sql: error: type "risk_severity" already exists
+    at file:///home/runner/workspace/node_modules/@neondatabase/serverless/index.mjs:1345:74
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async runMigrations (/home/runner/workspace/server/index.ts:206:11)
+    at async <anonymous> (/home/runner/workspace/server/index.ts:223:3) {
+  length: 93,
+  severity: 'ERROR',
+  code: '42710',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'typecmds.c',
+  line: '1167',
+  routine: 'DefineEnum'
+}
+Error executing migration migrations/003_add_risk_track_pro_tables.sql: error: column "projectid" does not exist
+    at file:///home/runner/workspace/node_modules/@neondatabase/serverless/index.mjs:1345:74
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async runMigrations (/home/runner/workspace/server/index.ts:206:11)
+    at async <anonymous> (/home/runner/workspace/server/index.ts:223:3) {
+  length: 99,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'indexcmds.c',
+  line: '1891',
+  routine: 'ComputeIndexAttrs'
+}
+Starting risk data import
+Inserting 5 sample risks
+Created risk_track_pro_risks table if it didn't exist
+Inserted risk R - 43
+Inserted risk R - 17
+Inserted risk R - 5
+Inserted risk R - 22
+Inserted risk R - 15
+Risk data import completed successfully!
+Database migrations completed
+node:events:496
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at doListen (node:net:2139:7)
+    at process.processTicksAndRejections (node:internal/process/task_queues:83:21)
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1944:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}

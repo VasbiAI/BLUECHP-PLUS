@@ -1,0 +1,116 @@
+{
+  "ID": 0,
+  "ProjID": "string",
+  "Name": "string",
+  "ParentID": 0,
+  "ParentProjID": "string",
+  "ParentName": "string",
+  "IsParentProject": true,
+  "Description": "string",
+  "Sector": {
+    "ID": 0,
+    "Description": "string",
+    "Code": "string"
+  },
+  "ProjectType": {
+    "ID": 0,
+    "SectorIDs": [
+      0
+    ],
+    "Description": "string",
+    "Code": "string"
+  },
+  "ServiceLine": {
+    "ID": 0,
+    "Description": "string",
+    "Code": "string"
+  },
+  "Region": {
+    "ID": 0,
+    "Description": "string",
+    "Code": "string"
+  },
+  "Location": {
+    "ID": 0,
+    "Description": "string",
+    "Code": "string",
+    "Address1": "string",
+    "Address2": "string",
+    "Suburb": "string",
+    "State": "string",
+    "Country": "string",
+    "PostCode": "string",
+    "Phone": "string",
+    "Fax": "string",
+    "Email": "string",
+    "RegionID": 0
+  },
+  "CurrentPhase": {
+    "ID": 0,
+    "No": 0,
+    "Description": "string",
+    "IsPreAward": true,
+    "IsCompletionState": true,
+    "SectorIDs": [
+      0
+    ],
+    "ProjectTypeIDs": [
+      0
+    ],
+    "LocationIDs": [
+      0
+    ],
+    "ServiceLineIDs": [
+      0
+    ]
+  },
+  "Priority": 0,
+  "CreatedDate": "2025-05-20T18:21:57.511Z",
+  "BaselineStartDate": "2025-05-20T18:21:57.512Z",
+  "BaselineFinishDate": "2025-05-20T18:21:57.512Z",
+  "ActualStartDate": "2025-05-20T18:21:57.512Z",
+  "ActualFinishDate": "2025-05-20T18:21:57.512Z",
+  "ForecastStartDate": "2025-05-20T18:21:57.512Z",
+  "ForecastFinishDate": "2025-05-20T18:21:57.512Z",
+  "CurrencyID": 0,
+  "PrimaryRevenueChartID": 0,
+  "PrimaryInternalCostChartID": 0,
+  "PrimaryProjectCostChartID": 0,
+  "PrimaryFundingChartID": 0,
+  "WinProbability": 0,
+  "RevenueProbability": 0,
+  "NPV": 0,
+  "BudgetNPV": 0,
+  "IRR": 0,
+  "BudgetIRR": 0,
+  "DiscountRate": 0,
+  "BudgetDiscountRate": 0,
+  "CustomFields": [
+    {
+      "Name": "string",
+      "Value": "string",
+      "Category": "string",
+      "IntegerValue": 0,
+      "DecimalValue": 0,
+      "DateValue": "2025-05-20T18:21:57.512Z"
+    }
+  ],
+  "ExtID": "string",
+  "ProjectTaskListID": 0,
+  "PenaltyRateListID": 0,
+  "TimesheetApprovalRequired": true,
+  "TimesheetCommentsRequired": true,
+  "InterestCodeID": 0,
+  "InterestRate": 0,
+  "InterestOffset": 0,
+  "InterestApplyToBudget": true,
+  "InterestApplyToForecast": true,
+  "InterestIncludeSubprojects": true,
+  "RiskContingencyChartID": 0,
+  "RiskContingencyCodeID": 0,
+  "RiskRatingMethodologyID": 0,
+  "RiskRatingMethodologyDescription": "string",
+  "CPILocationID": 0,
+  "StatusExternal": "string",
+  "StatusInternal": "string"
+}
